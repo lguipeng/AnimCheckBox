@@ -7,14 +7,14 @@
 
 ##Import to your project
 ###Gradle
-####Add it in your build.gradle at the end of repositories
+Add it in your build.gradle at the end of repositories
 ```
 repositories {
     // ...
     maven { url "https://jitpack.io" }
 }
 ```
-####Add the dependency in the form
+Add the dependency in the form
 ```groovy
 dependencies {
     compile 'com.github.lguipeng:AnimCheckBox:1.0.0'
