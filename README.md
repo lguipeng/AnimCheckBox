@@ -10,14 +10,14 @@
 ####Add it in your build.gradle at the end of repositories
 ```
 repositories {
-        // ...
-        maven { url "https://jitpack.io" }
+    // ...
+    maven { url "https://jitpack.io" }
 }
 ```
 ####Add the dependency in the form
 ```groovy
 dependencies {
-    compile 'com.github.lguipeng:AnimChechBox:1.0.0'
+    compile 'com.github.lguipeng:AnimCheckBox:1.0.0'
 }
 ```
 ###Maven
@@ -30,7 +30,7 @@ dependencies {
 ```
 <dependency>
     <groupId>com.github.lguipeng</groupId>
-    <artifactId>AnimChechBox</artifactId>
+    <artifactId>AnimCheckBox</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
