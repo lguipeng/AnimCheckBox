@@ -7,10 +7,32 @@
 
 ##Import to your project
 ###Gradle
+####Add it in your build.gradle at the end of repositories
+```
+repositories {
+        // ...
+        maven { url "https://jitpack.io" }
+}
+```
+####Add the dependency in the form
 ```groovy
 dependencies {
-    compile ''
+    compile 'com.github.lguipeng:AnimChechBox:1.0.0'
 }
+```
+###Maven
+```
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+</repository>
+```
+```
+<dependency>
+    <groupId>com.github.lguipeng</groupId>
+    <artifactId>AnimChechBox</artifactId>
+    <version>1.0.0</version>
+</dependency>
 ```
 ###Or
 Copy [`AnimCheckBox.java`](./library/src/main/java/com/github/lguipeng/library/animcheckbox/AnimCheckBox.java) into your project.
