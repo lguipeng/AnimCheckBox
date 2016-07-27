@@ -320,4 +320,5 @@ public class AnimCheckBox extends View {
     public interface OnCheckedChangeListener {
         void onChange(AnimCheckBox view, boolean checked);
     }
+
 }
