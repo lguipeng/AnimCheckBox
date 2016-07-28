@@ -14,14 +14,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.Checkable;
 
 import com.github.lguipeng.library.R;
 
 /**
  * Created by lgp on 2015/10/5.
  */
-public class AnimCheckBox extends View {
-    private final String TAG = "AnimCheckBox";
+public class AnimCheckBox extends View implements Checkable {
     private final double mSin27 = Math.sin(Math.toRadians(27));
     private final double mSin63 = Math.sin(Math.toRadians(63));
     private final int mDuration = 500;
@@ -38,13 +38,15 @@ public class AnimCheckBox extends View {
     private float mEndLeftHookOffset;
     private float mEndRightHookOffset;
     private int size;
-    private boolean mChecked = true;
+    private boolean mChecked;
     private float mHookOffset;
     private float mHookSize;
     private int mInnerCircleAlpha = 0XFF;
     private int mStrokeWidth = 2;
     private int mStrokeColor = Color.BLUE;
     private int mCircleColor = Color.WHITE;
+    private int mInnerBackgroundColor = Color.WHITE;
+    private boolean isInit = true;
     private OnCheckedChangeListener mOnCheckedChangeListener;
 
     public AnimCheckBox(Context context) {
@@ -61,7 +63,9 @@ public class AnimCheckBox extends View {
             TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.AnimCheckBox);
             mStrokeWidth = (int) array.getDimension(R.styleable.AnimCheckBox_stroke_width, dip(mStrokeWidth));
             mStrokeColor = array.getColor(R.styleable.AnimCheckBox_stroke_color, mStrokeColor);
-            mCircleColor = array.getColor(R.styleable.AnimCheckBox_circle_color, mCircleColor);
+            mCircleColor = array.getColor(R.styleable.AnimCheckBox_circle_color, mInnerBackgroundColor);
+            mInnerBackgroundColor = array.getColor(R.styleable.AnimCheckBox_inner_background, mInnerBackgroundColor);
+            mChecked = array.getBoolean(R.styleable.AnimCheckBox_checked, false);
             array.recycle();
         } else {
             mStrokeWidth = dip(mStrokeWidth);
@@ -132,7 +136,7 @@ public class AnimCheckBox extends View {
         canvas.drawArc(mRectF, 202, mSweepAngle, false, mPaint);
         initDrawAlphaStrokeCirclePaint();
         canvas.drawArc(mRectF, 202, mSweepAngle - 360, false, mPaint);
-        initDrawInnerCirclePaint();
+        initDrawInnerCirclePaint(false);
         canvas.drawArc(mInnerRectF, 0, 360, false, mPaint);
     }
 
@@ -178,13 +182,23 @@ public class AnimCheckBox extends View {
         mPaint.setStrokeWidth(mStrokeWidth);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setColor(mStrokeColor);
-        mPaint.setAlpha(0x40);
+        if (isInit) {
+            mPaint.setAlpha(0xFF);
+            isInit = false;
+        } else {
+            mPaint.setAlpha(0x40);
+        }
     }
 
-    private void initDrawInnerCirclePaint() {
+    private void initDrawInnerCirclePaint(boolean isInnerBg) {
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setColor(mCircleColor);
-        mPaint.setAlpha(mInnerCircleAlpha);
+        if (mChecked) {
+            mPaint.setColor(mCircleColor);
+            mPaint.setAlpha(mInnerCircleAlpha);
+        } else {
+            mPaint.setColor(mInnerBackgroundColor);
+            mPaint.setAlpha(0xFF);
+        }
     }
 
     private void startCheckedAnim() {
@@ -256,7 +270,6 @@ public class AnimCheckBox extends View {
         return mChecked;
     }
 
-
     /**
      * setChecked with Animation
      *
@@ -264,6 +277,11 @@ public class AnimCheckBox extends View {
      */
     public void setChecked(boolean checked) {
         setChecked(checked, true);
+    }
+
+    @Override
+    public void toggle() {
+        setChecked(!isChecked());
     }
 
     /**
@@ -320,5 +338,4 @@ public class AnimCheckBox extends View {
     public interface OnCheckedChangeListener {
         void onChange(AnimCheckBox view, boolean checked);
     }
-
 }

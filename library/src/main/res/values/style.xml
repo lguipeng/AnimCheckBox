@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="AnimCheckBox">
-        <attr name="stroke_width" format="dimension"/>
-        <attr name="stroke_color" format="color"/>
-        <attr name="circle_color" format="color"/>
+        <attr name="stroke_width" format="dimension" />
+
+        <attr name="stroke_color" format="color" />
+
+        <attr name="circle_color" format="color" />
+
+        <attr name="checked" format="boolean" />
+
+        <attr name="inner_background" format="color" />
     </declare-styleable>
 </resources>
