@@ -45,8 +45,6 @@ public class AnimCheckBox extends View implements Checkable {
     private int mStrokeWidth = 2;
     private int mStrokeColor = Color.BLUE;
     private int mCircleColor = Color.WHITE;
-    private int mInnerBackgroundColor = Color.WHITE;
-    private boolean isInit = true;
     private OnCheckedChangeListener mOnCheckedChangeListener;
 
     public AnimCheckBox(Context context) {
@@ -59,13 +57,13 @@ public class AnimCheckBox extends View implements Checkable {
     }
 
     private void init(AttributeSet attrs) {
+        boolean checked = mChecked;
         if (attrs != null) {
             TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.AnimCheckBox);
             mStrokeWidth = (int) array.getDimension(R.styleable.AnimCheckBox_stroke_width, dip(mStrokeWidth));
             mStrokeColor = array.getColor(R.styleable.AnimCheckBox_stroke_color, mStrokeColor);
-            mCircleColor = array.getColor(R.styleable.AnimCheckBox_circle_color, mInnerBackgroundColor);
-            mInnerBackgroundColor = array.getColor(R.styleable.AnimCheckBox_inner_background, mInnerBackgroundColor);
-            mChecked = array.getBoolean(R.styleable.AnimCheckBox_checked, false);
+            mCircleColor = array.getColor(R.styleable.AnimCheckBox_circle_color, Color.WHITE);
+            checked = array.getBoolean(R.styleable.AnimCheckBox_checked, false);
             array.recycle();
         } else {
             mStrokeWidth = dip(mStrokeWidth);
@@ -73,12 +71,13 @@ public class AnimCheckBox extends View implements Checkable {
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(mStrokeWidth);
         mPaint.setColor(mStrokeColor);
-        setOnClickListener(new OnClickListener() {
+        super.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 setChecked(!mChecked);
             }
         });
+        setCheckedViewInner(checked, false);
     }
 
     @Override
@@ -136,7 +135,7 @@ public class AnimCheckBox extends View implements Checkable {
         canvas.drawArc(mRectF, 202, mSweepAngle, false, mPaint);
         initDrawAlphaStrokeCirclePaint();
         canvas.drawArc(mRectF, 202, mSweepAngle - 360, false, mPaint);
-        initDrawInnerCirclePaint(false);
+        initDrawInnerCirclePaint();
         canvas.drawArc(mInnerRectF, 0, 360, false, mPaint);
     }
 
@@ -182,23 +181,13 @@ public class AnimCheckBox extends View implements Checkable {
         mPaint.setStrokeWidth(mStrokeWidth);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setColor(mStrokeColor);
-        if (isInit) {
-            mPaint.setAlpha(0xFF);
-            isInit = false;
-        } else {
-            mPaint.setAlpha(0x40);
-        }
+        mPaint.setAlpha(0x40);
     }
 
-    private void initDrawInnerCirclePaint(boolean isInnerBg) {
+    private void initDrawInnerCirclePaint() {
         mPaint.setStyle(Paint.Style.FILL);
-        if (mChecked) {
-            mPaint.setColor(mCircleColor);
-            mPaint.setAlpha(mInnerCircleAlpha);
-        } else {
-            mPaint.setColor(mInnerBackgroundColor);
-            mPaint.setAlpha(0xFF);
-        }
+        mPaint.setColor(mCircleColor);
+        mPaint.setAlpha(mInnerCircleAlpha);
     }
 
     private void startCheckedAnim() {
@@ -266,6 +255,7 @@ public class AnimCheckBox extends View implements Checkable {
         return (color & 0x00FFFFFF) | alpha << 24;
     }
 
+    @Override
     public boolean isChecked() {
         return mChecked;
     }
@@ -275,6 +265,7 @@ public class AnimCheckBox extends View implements Checkable {
      *
      * @param checked true if checked, false if unchecked
      */
+    @Override
     public void setChecked(boolean checked) {
         setChecked(checked, true);
     }
@@ -292,6 +283,22 @@ public class AnimCheckBox extends View implements Checkable {
         if (checked == this.mChecked) {
             return;
         }
+        setCheckedViewInner(checked, animation);
+        if (mOnCheckedChangeListener != null) {
+            mOnCheckedChangeListener.onChange(this, mChecked);
+        }
+    }
+
+    /**
+     * @deprecated use {@link #setOnCheckedChangeListener(OnCheckedChangeListener)} instead
+     */
+    @Deprecated
+    @Override
+    public void setOnClickListener(OnClickListener l) {
+        //Empty!
+    }
+
+    private void setCheckedViewInner(boolean checked, boolean animation) {
         this.mChecked = checked;
         if (animation) {
             startAnim();
@@ -306,9 +313,6 @@ public class AnimCheckBox extends View implements Checkable {
                 mHookOffset = 0;
             }
             invalidate();
-        }
-        if (mOnCheckedChangeListener != null) {
-            mOnCheckedChangeListener.onChange(this, mChecked);
         }
     }
 

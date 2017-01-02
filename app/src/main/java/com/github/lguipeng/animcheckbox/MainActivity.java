@@ -14,13 +14,10 @@ public class MainActivity extends AppCompatActivity implements AnimCheckBox.OnCh
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAnimCheckBox1 = (AnimCheckBox) findViewById(R.id.checkbox_1);
-        mAnimCheckBox1.setChecked(false, false);
         mAnimCheckBox2 = (AnimCheckBox) findViewById(R.id.checkbox_2);
-        mAnimCheckBox2.setChecked(false, false);
         mAnimCheckBox1.setOnCheckedChangeListener(this);
         mAnimCheckBox2.setOnCheckedChangeListener(this);
     }
-
 
     @Override
     public void onChange(AnimCheckBox view, boolean checked) {

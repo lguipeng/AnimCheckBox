@@ -9,6 +9,5 @@
 
         <attr name="checked" format="boolean" />
 
-        <attr name="inner_background" format="color" />
     </declare-styleable>
 </resources>
