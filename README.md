@@ -17,7 +17,7 @@ repositories {
 Add the dependency in the form
 ```groovy
 dependencies {
-    compile 'com.github.lguipeng:AnimCheckBox:1.0.0'
+    compile 'com.github.lguipeng:AnimCheckBox:1.0.1'
 }
 ```
 ###Maven
@@ -48,7 +48,8 @@ Copy [`AnimCheckBox.java`](./library/src/main/java/com/github/lguipeng/library/a
         android:layout_height="wrap_content"
         app:stroke_width="4dp"
         app:stroke_color="#2196F3"
-        app:circle_color="#1976D2"/>
+        app:circle_color="#1976D2"
+        app:checked="true"/>
 ```
 ###In Java File
 ```
@@ -59,12 +60,11 @@ checkbox.setChecked(false, animation);
 ```
 
 ##关于我
-- 一个刚步入社会的毕业僧
 - Email: lgpszu@163.com
 
 ##License
 ```
-Copyright 2015 Liaoguipeng
+Copyright 2017 Liaoguipeng
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
