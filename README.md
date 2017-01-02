@@ -17,7 +17,7 @@ repositories {
 Add the dependency in the form
 ```groovy
 dependencies {
-    compile 'com.github.lguipeng:AnimCheckBox:v1.0.1'
+    compile 'com.github.lguipeng:AnimCheckBox:1.0.1'
 }
 ```
 ###Maven
@@ -31,7 +31,7 @@ dependencies {
 <dependency>
     <groupId>com.github.lguipeng</groupId>
     <artifactId>AnimCheckBox</artifactId>
-    <version>v1.0.1</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 ###Or
